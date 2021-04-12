@@ -4,19 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Student;
 use Illuminate\Http\Request;
+use DB;
 
 class StudentController extends Controller
 {
+
+    public $genders = [
+        "0" => "Female",
+        "1" => "Male",
+    ];
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    
+    public function __construct()
     {
-        $students = Student::all();
+        $this->middleware('auth');
+    }
 
-        return view('students.dashboard',compact('students'));
+    public function index(Request $request)
+    {
+
+        $data = array(
+            'gender'    => $request->gender
+        );
+        // dd($data['gender']);
+
+        $students = DB::table('students')->where('gender', '=', $data['gender'])->get();
+        // $students = DB::table('students')->get();
+        // dd($students);
+        return view('students.dashboard',compact('students'))->with('students',Student::paginate(5));
+        // return redirect()->route('students.index');
+        
+        
 
         // dd($students);
     }
@@ -44,7 +66,7 @@ class StudentController extends Controller
         $request->validate([
                 'first_name'    =>  'required',
                 'last_name'     =>  'required',
-                'gender'        =>  'required',
+                'gender'        =>  'required|string',
                 'country'       =>  'required',
                 'city'          =>  'required',
                 'address'       =>  'required',
@@ -66,6 +88,9 @@ class StudentController extends Controller
      */
     public function show($id)
     {
+        
+
+
         $students = Student::findOrFail($id);
 
         return view('students.show', compact('students'));
@@ -115,6 +140,8 @@ class StudentController extends Controller
             'address'       =>  $request->address,
         );
 
+        // dd($student);
+
         Student::whereId($id)->update($student);
 
         return redirect()->route('students.index')->with('success','Student successfully updated');
@@ -133,4 +160,17 @@ class StudentController extends Controller
 
         return redirect()->route('students.index')->with('success', 'Student Successfully deleted!');
     }
+
+    public function studentGender(Request $request)
+    {
+        $data = array(
+            'gender'    => $request->gender
+        );
+        dd($data);
+
+        $students = DB::table('students')->where('gender', '=', $data['gender'])->tosql();
+        return view('students.dashboard',compact('students'))->with('students',Student::paginate(5));
+    }
+
+    
 }

@@ -27,14 +27,33 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6 row">
+                        <!-- <div class="form-group col-md-6 row">
                             <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
 
                             <div class="col-md-8">
                                 <input  type="text" class="form-control" name="gender" required>
                             </div>
+                        </div> -->
+                        <!-- <div class="form-group col-md-6 row">
+                        <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                        <div class="col-md-8">
+                                <select class="form-control" name="gender" required="required">
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            
+                        </div> -->
+                        <div class="form-group col-md-6 row">
+                        <label for="gender" class="col-md-4 col-form-label text-md-right">{{ __('Gender') }}</label>
+                            <div class="col-md-8">
+                                    <input type="checkbox" value="Male" id="male" name="gender">
+                                    <label for="red">Male</label>
+                                    <input type="checkbox" value="Female" id="female" name="gender">
+                                    <label for="yellow">Female</label>
                         </div>
-
+                            
+                        </div>
                         <div class="form-group col-md-6 row">
                             <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
